@@ -3,12 +3,12 @@ FROM alpine:latest
 # Install needed packages to run Jenkins
 RUN apk add openjdk8 ttf-dejavu
 
-RUN mkdir -p /opt/jenkins
+RUN mkdir -p /opt/jenkins && wget http://mirrors.jenkins.io/war/latest/jenkins.war
 
 ENV JENKINS_HOME /opt/jenkins
 ENV JENKINS_ARGS --httpPort=8081
 
-COPY ./jenkins.war /opt/jenkins
+#COPY ./jenkins.war /opt/jenkins
 COPY ./entrypoint.sh /
 
 #VOLUME ["/opt/jenkins"]

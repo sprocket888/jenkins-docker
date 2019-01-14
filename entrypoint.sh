@@ -1,3 +1,3 @@
 #!/bin/ash
 
-java -jar /opt/jenkins/jenkins.war $JENKINS_ARGS
+java -jar /jenkins.war $JENKINS_ARGS
