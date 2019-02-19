@@ -3,7 +3,7 @@ FROM alpine:latest
 # Install needed packages to run Jenkins
 RUN apk add openjdk8 ttf-dejavu openssl
 
-RUN mkdir -p /opt/jenkins && wget http://mirrors.jenkins.io/war/2.165/jenkins.war
+RUN mkdir -p /opt/jenkins && wget http://mirrors.jenkins.io/war/2.158/jenkins.war
 
 ENV JENKINS_HOME /opt/jenkins
 
