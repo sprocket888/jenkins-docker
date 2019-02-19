@@ -1,18 +1,22 @@
 FROM alpine:latest
 
 # Install needed packages to run Jenkins
-RUN apk add openjdk8 ttf-dejavu
+RUN apk add openjdk8 ttf-dejavu openssl
 
-RUN mkdir -p /opt/jenkins && wget http://mirrors.jenkins.io/war/latest/jenkins.war
+RUN mkdir -p /opt/jenkins && wget http://mirrors.jenkins.io/war/2.165/jenkins.war
 
 ENV JENKINS_HOME /opt/jenkins
-ENV JENKINS_ARGS --httpPort=8081
 
-#COPY ./jenkins.war /opt/jenkins
-COPY ./entrypoint.sh /
+# NOTE the Keystore filename and password are derived from the self-signed-ssl.sh 
+# script that is used if that is changed then the values here need to be updated.
 
-#VOLUME ["/opt/jenkins"]
+ENV JENKINS_ARGS --httpPort=-1 --httpsPort=443 --httpsKeyStore="/jenkins.jks" --httpsKeyStorePassword="notsecure01"
 
-#CMD ["/bin/ash"]
-#CMD ["java","-jar","/opt/jenkins/jenkins.war","$JENKINS_ARGS"]
-CMD ["/bin/ash","entrypoint.sh"]
+EXPOSE 443
+
+COPY ./entrypoint.sh ./self-signed-ssl.sh /
+
+VOLUME ["/opt/jenkins"]
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["jenkins"]
